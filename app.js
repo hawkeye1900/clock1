@@ -1,34 +1,36 @@
-// get second hand
-// how many degrees does hand move every second? 360 / 60
-// rotate hand by 6 degrees,
 const secondHand = document.querySelector(".seconds");
 const minuteHand = document.querySelector(".minutes");
 const hourHand = document.querySelector(".hours");
-let secondDegrees = 90;
-let minuteDegrees = 90;
-let hourDegrees = 90;
 
-let seconds = 0;
+const initialDegrees = 90;
 
-secondHand.style.transform = `rotate(${secondDegrees}deg)`;
-minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
-hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+function setTime() {
+  const now = new Date();
+  const secs = now.getSeconds();
+  const mins = now.getMinutes();
+  const hrs = now.getHours();
 
-function setSeconds() {
-  secondDegrees += 6;
-  secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+  const secondHandDegreesPerSecond = 360 / 60;
+  const minuteHandDegreesPerSecond = 360 / 3600;
+  const hourHandDegreesPerSecond = 360 / 43200;
+  const secondsPerHour = 3600;
+
+  let secondHandDegrees = secondHandDegreesPerSecond * secs + 90;
+  console.log(secondHandDegrees);
+  if (secondHandDegrees === 90) {
+    secondHand.style.transform = "none";
+  } else {
+    secondHand.style.transform = "";
+  }
+
+  secondHand.style.transform = `rotate(${secondHandDegrees}deg)`;
+
+  let minuteHandDegrees = minuteHandDegreesPerSecond * (secs + mins * 60) + 90;
+  minuteHand.style.transform = `rotate(${minuteHandDegrees}deg)`;
+
+  let hoursHandDegrees =
+    hourHandDegreesPerSecond * (mins * 60 + secs + hrs * secondsPerHour) + 90;
+  hourHand.style.transform = `rotate(${hoursHandDegrees}deg)`;
 }
 
-function setMinutes() {
-  minuteDegrees += 6;
-  minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
-}
-
-function setHours() {
-  hourDegrees += 30;
-  hourHand.style.transform = `rotate(${hourDegrees}deg)`;
-}
-
-setInterval(setSeconds, 1000);
-setInterval(setMinutes, 60000);
-setInterval(setHours, 3600000);
+setInterval(setTime, 1000);
