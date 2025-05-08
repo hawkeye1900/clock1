@@ -5,36 +5,34 @@ const hourHand = document.querySelector(".hours");
 
 const initialDegrees = 90;
 
+const DEGREES_PER_SECOND = 6; // 360 / 60;
+const DEGREES_PER_MINUTE = 0.1; // 360 / 3600;
+const DEGREES_PER_HOUR = 0.008333333; // 36 / 43200;
+const SECONDS_PER_HOUR = 3600;
+const OFFSET = 90;
+
 function setTime() {
   const now = new Date();
   const secs = now.getSeconds();
-  // console.log(secs);
-
   const mins = now.getMinutes();
   const hrs = now.getHours();
 
-  const secondHandDegreesPerSecond = 360 / 60;
-  const minuteHandDegreesPerSecond = 360 / 3600;
-  const hourHandDegreesPerSecond = 360 / 43200;
-  const secondsPerHour = 3600;
+  let secondHandDegrees = DEGREES_PER_SECOND * secs + OFFSET;
 
-  let secondHandDegrees = secondHandDegreesPerSecond * secs + 90;
-  if (secondHandDegrees === 90) {
-    secondHand.style.display = "none";
-    secondHand2.style.display = "";
-  } else {
-    secondHand.style.display = "";
-    secondHand2.style.display = "none";
-  }
+  secondHand.style.display = secondHandDegrees === OFFSET ? "none" : "";
+  secondHand2.style.display = secondHandDegrees === OFFSET ? "" : "none";
 
+  // Second hand
   secondHand.style.transform = `rotate(${secondHandDegrees}deg)`;
   secondHand2.style.transform = `rotate(${secondHandDegrees}deg)`;
 
-  let minuteHandDegrees = minuteHandDegreesPerSecond * (secs + mins * 60) + 90;
+  // Minute hand
+  let minuteHandDegrees = DEGREES_PER_MINUTE * (secs + mins * 60) + OFFSET;
   minuteHand.style.transform = `rotate(${minuteHandDegrees}deg)`;
 
+  // Hour hand
   let hoursHandDegrees =
-    hourHandDegreesPerSecond * (mins * 60 + secs + hrs * secondsPerHour) + 90;
+    DEGREES_PER_HOUR * (mins * 60 + secs + hrs * SECONDS_PER_HOUR) + 90;
   hourHand.style.transform = `rotate(${hoursHandDegrees}deg)`;
 }
 
