@@ -1,4 +1,5 @@
 const secondHand = document.querySelector(".seconds");
+const secondHand2 = document.querySelector(".seconds2");
 const minuteHand = document.querySelector(".minutes");
 const hourHand = document.querySelector(".hours");
 
@@ -7,6 +8,8 @@ const initialDegrees = 90;
 function setTime() {
   const now = new Date();
   const secs = now.getSeconds();
+  // console.log(secs);
+
   const mins = now.getMinutes();
   const hrs = now.getHours();
 
@@ -16,14 +19,16 @@ function setTime() {
   const secondsPerHour = 3600;
 
   let secondHandDegrees = secondHandDegreesPerSecond * secs + 90;
-  console.log(secondHandDegrees);
   if (secondHandDegrees === 90) {
-    secondHand.style.transform = "none";
+    secondHand.style.display = "none";
+    secondHand2.style.display = "";
   } else {
-    secondHand.style.transform = "";
+    secondHand.style.display = "";
+    secondHand2.style.display = "none";
   }
 
   secondHand.style.transform = `rotate(${secondHandDegrees}deg)`;
+  secondHand2.style.transform = `rotate(${secondHandDegrees}deg)`;
 
   let minuteHandDegrees = minuteHandDegreesPerSecond * (secs + mins * 60) + 90;
   minuteHand.style.transform = `rotate(${minuteHandDegrees}deg)`;
